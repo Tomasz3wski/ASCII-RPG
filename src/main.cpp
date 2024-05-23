@@ -1,5 +1,5 @@
 #include <iostream>
-#include "display.h"
+#include "../include/display.h"
 
 int main() {
     SetConsole(52, 30);

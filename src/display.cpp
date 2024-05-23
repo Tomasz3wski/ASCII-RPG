@@ -1,9 +1,9 @@
-#include "display.h"
 #include <iostream>
 #include <windows.h>
 #include <format>
-#include "utilities/Colors.h"
-#include "resource.h"
+#include "../include/display.h"
+#include "../include/utilities/Colors.h"
+#include "../res/resource.h"
 
 void SetConsole(int width, int height) {
 //title
@@ -94,7 +94,7 @@ setDefaultColor();
 
 if (getInvalidChoice() == true){
         setColor(RED);
-        std::cout << std::format("{:^52}", "Invalid option. Please choose again.") << std::endl;
+        std::clog << std::format("{:^52}", "Invalid option. Please choose again.") << std::endl;
         setDefaultColor();
         setInvalidChoice(false);
 }
