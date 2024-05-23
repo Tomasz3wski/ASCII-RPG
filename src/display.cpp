@@ -4,6 +4,7 @@
 #include "../include/display.h"
 #include "../include/utilities/Colors.h"
 #include "../res/resource.h"
+#include <conio.h>
 
 void SetConsole(int width, int height) {
 //title
@@ -30,6 +31,15 @@ windowSize.Bottom = height - 1;
 SetConsoleWindowInfo(hConsole, TRUE, &windowSize);
 
 SetConsoleScreenBufferSize(hConsole, bufferSize);
+
+//remove cursor
+HANDLE hhConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+
+CONSOLE_CURSOR_INFO cursorInfo;
+GetConsoleCursorInfo(hhConsole, &cursorInfo);
+
+cursorInfo.bVisible = false;
+SetConsoleCursorInfo(hhConsole, &cursorInfo);
 }
 
 void clearscreen(){
@@ -53,7 +63,9 @@ void Menu::setInvalidChoice(bool _invalidChoice){
         invalidChoice = _invalidChoice;
 }
 
-Menu::Menu() : invalidChoice(false){};
+Menu::Menu() : invalidChoice(false), selectedOption(0){
+        options = {"1.New Game", "2. Load Game", "3.Author", "4. Exit Game"};
+};
 
 void Menu::Display() {
 
@@ -69,26 +81,18 @@ std::cout << "                                                   \n";
 
 setColor(LIGHT_RED);
 std::cout << '+' << std::string(50, '-') << '+' << std::endl;
-std::cout << '|';
-setDefaultColor();
-std::cout << std::format("{:^50}", " 1. New Game");
-setColor(LIGHT_RED);
-std::cout << '|' << std::endl;
-std::cout << '|';
-setDefaultColor();
-std::cout << std::format("{:^50}", "  2. Load Game");
-setColor(LIGHT_RED);
-std::cout << '|' << std::endl;
-std::cout << '|';
-setDefaultColor();
-std::cout << std::format("{:^50}", "3. Author");
-setColor(LIGHT_RED);
-std::cout << '|' << std::endl;
-std::cout << '|';
-setDefaultColor();
-std::cout << std::format("{:^50}", "  4. Exit Game");
-setColor(LIGHT_RED);
-std::cout << '|' << std::endl;
+for(int i=0; i<options.size(); i++){
+        std::cout << '|';
+        if(i == selectedOption){
+                setColor(BLUE);
+        }
+        else{
+                setDefaultColor();
+        }
+        std::cout << std::format("{:^50}", options[i]);
+        setColor(LIGHT_RED);
+        std::cout << '|' << std::endl;
+}
 std::cout << '+' << std::string(50, '-') << '+' << std::endl;
 setDefaultColor();
 
@@ -98,65 +102,75 @@ if (getInvalidChoice() == true){
         setDefaultColor();
         setInvalidChoice(false);
 }
-int choice;
-std::cout << R"(                 Choose an option: )";
-std::cin >> choice;
+};
 
-switch (choice) {
-case 1:
-        clearscreen();
-        std::cout << "Started a new game.\n";
-        break;
-case 2:
-        clearscreen();
-        std::cout << "Loaded the game.\n";
-        break;
-case 3:
-        clearscreen();
-        for (int i = 0; i < 10; i++){
-                if(i == 0 or i == 9){
-                        setColor(YELLOW);
-                        std::cout << '+' << std::string(50, '-') << '+' << std::endl;
-                        continue;
+void Menu::Run(){
+        while (true){
+                Display();
+
+                int ch = _getch();
+                if (ch == 224) { //special keys
+                        ch = _getch();
+                        if ( ch == 72) { //up
+                                selectedOption = (selectedOption == 0) ? options.size() - 1 : selectedOption - 1;
                         }
-                else if(i == 4){
-                        setColor(YELLOW);
-                        std::cout << '|';
-                        setDefaultColor();
-                        std::cout << std::format("{:^50}", "Created by");
-                        setColor(YELLOW);
-                        std::cout << '|' << std::endl;
-                        continue;
+                        else if (ch == 80) { //down
+                                selectedOption = (selectedOption == options.size() - 1) ? 0 : selectedOption + 1;
+                        }} 
+                else if (ch == 13) { // enter
+                        switch (selectedOption) {
+                        case 0:
+                                clearscreen();
+                                std::cout << "Started a new game.\n";
+                                system("timeout 3");
+                                return;
+                        case 1:
+                                clearscreen();
+                                std::cout << "Loaded the game.\n";
+                                system("timeout 3");
+                                return;
+                        case 2:
+                                clearscreen();
+                                for (int i = 0; i < 10; i++){
+                                        if(i == 0 or i == 9){
+                                                setColor(YELLOW);
+                                                std::cout << '+' << std::string(50, '-') << '+' << std::endl;
+                                                continue;
+                                        }
+                                        else if(i == 4){
+                                                setColor(YELLOW);
+                                                std::cout << '|';
+                                                setDefaultColor();
+                                                std::cout << std::format("{:^50}", "Created by");
+                                                setColor(YELLOW);
+                                                std::cout << '|' << std::endl;
+                                                continue;
+                                        }
+                                        else if(i == 5){
+                                                setColor(YELLOW);
+                                                std::cout << '|';
+                                                setDefaultColor();
+                                                std::cout << std::format("{:^50}", "Jakub Tomaszewski");
+                                                setColor(YELLOW);
+                                                std::cout << '|' << std::endl;
+                                                continue;
+                                        }
+                                        setColor(YELLOW);
+                                        std::cout << std::format("|{:<50}|", ' ') << std::endl;
+                                }
+                                setDefaultColor();
+                                std::cout << R"(               Returning to menu)";
+                                for (int i=0; i<3; i++){
+                                        std::cout << '.';
+                                        Sleep(1500);
+                                }
+                                break;
+                        case 3:
+                                clearscreen();
+                                std::cout << "Exiting the game...\n";
+                                system("timeout 5");
+                                return;
+                        }
                 }
-                else if(i == 5){
-                        setColor(YELLOW);
-                        std::cout << '|';
-                        setDefaultColor();
-                        std::cout << std::format("{:^50}", "Jakub Tomaszewski");
-                        setColor(YELLOW);
-                        std::cout << '|' << std::endl;
-                        continue;
-                }
-                setColor(YELLOW);
-                std::cout << std::format("|{:<50}|", ' ') << std::endl;
         }
-        setDefaultColor();
-        std::cout << R"(               Returning to menu)";
-        for (int i=0; i<3; i++){
-                std::cout << '.';
-                Sleep(1500);
-        }
-        Display();
-        break;
-case 4:
-        clearscreen();
-        std::cout << "Exiting the game...";
-        system("timeout 5");
-        break;
-default:
-        setInvalidChoice(true);
-        clearscreen();
-        Display();
-        break;
-}
 };

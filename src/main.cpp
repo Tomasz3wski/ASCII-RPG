@@ -5,7 +5,7 @@ int main() {
     SetConsole(52, 30);
 
     Menu Menu;
-    Menu.Display();
+    Menu.Run();
 
 return 0;
 };
