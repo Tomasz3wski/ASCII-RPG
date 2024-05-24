@@ -7,6 +7,8 @@
 #include "../include/menuHandler.h"
 #include "../include/utilities/Colors.h"
 #include "../include/character.h"
+#include "../include/map.h"
+#include "../include/game.h"
 
 void startNewGame() {
     std::vector<std::string> classes = {"Mage", "Knight", "Hunter", "Return"};
@@ -50,6 +52,8 @@ void startNewGame() {
                     character->displayStats();
                     
                     system("timeout 5");
+
+                    runGame();
                     return;
                 } else if (confirmation == 'N' || confirmation == 'n') {
                     startNewGame();

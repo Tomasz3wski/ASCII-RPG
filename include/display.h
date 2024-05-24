@@ -9,6 +9,7 @@ void setDefaultColor();
 void SetConsole(int width, int height);
 void displayLogo();
 
+
 class Menu{
     bool invalidChoice;
     int selectedOption;
