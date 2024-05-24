@@ -3,27 +3,35 @@
 #include "../include/newGame.h"
 #include "../include/menuHandler.h"
 #include "../include/utilities/Colors.h"
+#include "../include/character.h"
 
 void startNewGame() {
     std::vector<std::string> classes = {"Mage", "Knight", "Hunter", "Return"};
 
     clearscreen();
     int selectedClass = displayMenu(classes);
-    
+    std::unique_ptr<Character> character;
+
     switch (selectedClass) {
         case 0:
-            std::cout << "You have selected Mage.\n";
+            character = std::make_unique<Mage>();
             break;
         case 1:
-            std::cout << "You have selected Knight.\n";
+            character = std::make_unique<Knight>();
             break;
         case 2:
-            std::cout << "You have selected Hunter.\n";
+            character = std::make_unique<Hunter>();
             break;
         case 3: 
             return;
     }
 
-    system("timeout 5");
+    if (character) {
+            clearscreen();
+            std::cout << "You have selected " << character->getName() << ".\n";
+            std::cout << "Starting weapon: " << character->getWeaponName() << "\n";
+            character->displaySpecialAbility();
+            system("timeout 5");
+}
 }
 
