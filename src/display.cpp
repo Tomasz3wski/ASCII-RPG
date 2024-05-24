@@ -5,6 +5,8 @@
 #include "../include/utilities/Colors.h"
 #include "../res/resource.h"
 #include <conio.h>
+#include "../include/newGame.h"
+#include "../include/menuHandler.h"
 
 void SetConsole(int width, int height) {
 //title
@@ -32,7 +34,7 @@ SetConsoleWindowInfo(hConsole, TRUE, &windowSize);
 
 SetConsoleScreenBufferSize(hConsole, bufferSize);
 
-//remove cursor
+//hide cursor
 HANDLE hhConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 
 CONSOLE_CURSOR_INFO cursorInfo;
@@ -42,9 +44,17 @@ cursorInfo.bVisible = false;
 SetConsoleCursorInfo(hhConsole, &cursorInfo);
 }
 
-void clearscreen(){
-        system("cls");
-};
+void displayLogo(){
+setColor(BLUE);        
+std::cout << "     _     ____   ____ ___ ___   ____  ____   ____ \n";
+std::cout << "    / \\   / ___| / ___|_ _|_ _| |  _ \\|  _ \\ / ___|\n";
+std::cout << "   / _ \\  \\___ \\| |    | | | |  | |_) | |_) | |  _ \n";
+std::cout << "  / ___ \\  ___) | |___ | | | |  |  _ <|  __/| |_| |\n";
+std::cout << " /_/   \\_\\|____/\\_____|___|___| |_| \\_\\_|    \\____|\n";
+std::cout << "                                                   \n";
+        std::cout << "\n\n";
+setDefaultColor();
+}
 
 void setColor(int color) {
         HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -64,21 +74,14 @@ void Menu::setInvalidChoice(bool _invalidChoice){
 }
 
 Menu::Menu() : invalidChoice(false), selectedOption(0){
-        options = {"1.New Game", "2. Load Game", "3.Author", "4. Exit Game"};
+        options = {"New Game", "Load Game", "Author", "Exit Game"};
 };
+
 
 void Menu::Display() {
 
 clearscreen();
-setColor(BLUE);        
-std::cout << "     _     ____   ____ ___ ___   ____  ____   ____ \n";
-std::cout << "    / \\   / ___| / ___|_ _|_ _| |  _ \\|  _ \\ / ___|\n";
-std::cout << "   / _ \\  \\___ \\| |    | | | |  | |_) | |_) | |  _ \n";
-std::cout << "  / ___ \\  ___) | |___ | | | |  |  _ <|  __/| |_| |\n";
-std::cout << " /_/   \\_\\|____/\\_____|___|___| |_| \\_\\_|    \\____|\n";
-std::cout << "                                                   \n";
-        std::cout << "\n\n";
-
+displayLogo();
 setColor(LIGHT_RED);
 std::cout << '+' << std::string(50, '-') << '+' << std::endl;
 for(int i=0; i<options.size(); i++){
@@ -107,23 +110,12 @@ if (getInvalidChoice() == true){
 void Menu::Run(){
         while (true){
                 Display();
-
-                int ch = _getch();
-                if (ch == 224) { //special keys
-                        ch = _getch();
-                        if ( ch == 72) { //up
-                                selectedOption = (selectedOption == 0) ? options.size() - 1 : selectedOption - 1;
-                        }
-                        else if (ch == 80) { //down
-                                selectedOption = (selectedOption == options.size() - 1) ? 0 : selectedOption + 1;
-                        }} 
-                else if (ch == 13) { // enter
+                int selectedOption = displayMenu(options);
                         switch (selectedOption) {
                         case 0:
                                 clearscreen();
-                                std::cout << "Started a new game.\n";
-                                system("timeout 3");
-                                return;
+                                startNewGame();
+                                break;
                         case 1:
                                 clearscreen();
                                 std::cout << "Loaded the game.\n";
@@ -172,5 +164,4 @@ void Menu::Run(){
                                 return;
                         }
                 }
-        }
-};
+        };

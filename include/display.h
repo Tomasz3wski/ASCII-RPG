@@ -4,10 +4,10 @@
 #include <string>
 #include <vector>
 
-void clearscreen();
 void setColor(int color);
 void setDefaultColor();
 void SetConsole(int width, int height);
+void displayLogo();
 
 class Menu{
     bool invalidChoice;
