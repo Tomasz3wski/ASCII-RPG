@@ -1,5 +1,8 @@
 #include <iostream>
 #include <vector>
+#include <memory>
+#include <conio.h>
+#include <windows.h>
 #include "../include/newGame.h"
 #include "../include/menuHandler.h"
 #include "../include/utilities/Colors.h"
@@ -27,11 +30,29 @@ void startNewGame() {
     }
 
     if (character) {
-            clearscreen();
-            std::cout << "You have selected " << character->getName() << ".\n";
-            std::cout << "Starting weapon: " << character->getWeaponName() << "\n";
-            character->displaySpecialAbility();
-            system("timeout 5");
-}
-}
+            while (true) {
+                clearscreen();
+                std::cout << "You have selected " << character->getName() << ".\n";
+                std::cout << "Description: " << character->getDescription() << "\n";
+                std::cout << "Starting weapon: " << character->getWeaponName() << "\n";
+                character->displaySpecialAbility();
+                std::cout << "\nDo you want to choose this class? (Y/N)\n";
+
+                char confirmation = _getch();
+                if (confirmation == 'Y' || confirmation == 'y') {
+                    clearscreen();
+                    std::string name;
+                    std::cout << "Enter the name of your character: ";
+                    std::cin >> name;
+                    character->setName(name);
+
+                    clearscreen();
+                    character->displayStats();
+                    
+                    system("timeout 5");
+                    return;
+                } else if (confirmation == 'N' || confirmation == 'n') {
+                    startNewGame();
+                    return;
+}}}}
 

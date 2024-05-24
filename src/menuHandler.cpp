@@ -21,7 +21,7 @@ int displayMenu(const std::vector<std::string>& options) {
         for (int i = 0; i < options.size(); ++i) {
             std::cout << '|';
             if (i == selectedOption) {
-                setColor(BLUE);
+                setColor(RED);
             } else {
                 setDefaultColor();
             }
