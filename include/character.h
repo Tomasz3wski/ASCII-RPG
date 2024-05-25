@@ -7,10 +7,12 @@
 
 class Weapon {
 public:
-    Weapon(const std::string& name);
+    explicit Weapon(const std::string& name);
     std::string getName() const;
+    int getDamage() const;
 private:
     std::string name;
+    int damage;
 };
 
 class Character {
@@ -25,6 +27,9 @@ public:
     int getExp() const;
     int getExpToNextLevel() const;
     void gainExp(int amount);
+    int getHealth() const;
+    int getDamage() const;
+    void takeDamage(int damage);
     void setName(const std::string& newName);
     void displayStats() const;
 
@@ -38,6 +43,7 @@ private:
     int level;
     int exp;
     int expToNextLevel;
+    int health;
 
     void levelUp();
 };

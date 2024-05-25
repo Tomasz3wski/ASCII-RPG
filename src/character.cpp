@@ -1,16 +1,21 @@
 #include <iostream>
 #include "../include/character.h"
 
-//Weapon
-Weapon::Weapon(const std::string& name) : name(name) {}
+//weapon
+Weapon::Weapon(const std::string& name) : name(name), damage(10) {}
 
 std::string Weapon::getName() const {
     return name;
 }
 
-//Character
+int Weapon::getDamage() const {
+    return damage;
+}
+
+//character
 Character::Character(const std::string& name, const std::string& description, std::unique_ptr<Weapon> weapon)
-    : name(name), description(description), weapon(std::move(weapon)), level(1), exp(0), expToNextLevel(100) {}
+    : name(name), description(description), weapon(std::move(weapon)), level(1), exp(0), expToNextLevel(100), health(100) {}
+
 
 std::string Character::getName() const {
     return name;
@@ -44,6 +49,19 @@ void Character::gainExp(int amount) {
     }
 }
 
+int Character::getHealth() const {
+    return health;
+}
+
+int Character::getDamage() const {
+    return weapon->getDamage();
+}
+
+void Character::takeDamage(int damage) {
+    health -= damage;
+    if (health < 0) health = 0;
+}
+
 void Character::displayStats() const{
     std::cout << "Character Name: " << getName() << "\n";
     std::cout << "Class: " << getClassName() << "\n";
@@ -62,7 +80,7 @@ void Character::setName(const std::string& newName) {
     name = newName;
 }
 
-//Mage
+//mage
 Mage::Mage() : Character("Mage", "A powerful spellcaster with a variety of magical abilities.", std::make_unique<Weapon>("Magic Staff")) {}
 
 void Mage::displaySpecialAbility() const {
@@ -73,7 +91,7 @@ std::string Mage::getClassName() const {
     return "Mage";
 }
 
-//Knight
+//knight
 Knight::Knight() : Character("Knight", "A heavily armored warrior with strong defense.", std::make_unique<Weapon>("Sword")) {}
 
 void Knight::displaySpecialAbility() const {
@@ -84,7 +102,7 @@ std::string Knight::getClassName() const {
     return "Knight";
 }
 
-//Hunter
+//hunter
 Hunter::Hunter() : Character("Hunter", "A quick and agile ranged attacker.", std::make_unique<Weapon>("Bow")) {}
 
 void Hunter::displaySpecialAbility() const {

@@ -9,6 +9,8 @@
 #include "../include/character.h"
 #include "../include/map.h"
 #include "../include/game.h"
+#include "../include/display.h"
+#include "../include/enemy.h"
 
 void startNewGame() {
     std::vector<std::string> classes = {"Mage", "Knight", "Hunter", "Return"};
@@ -34,6 +36,7 @@ void startNewGame() {
     if (character) {
             while (true) {
                 clearscreen();
+                displayLogo();
                 std::cout << "You have selected " << character->getName() << ".\n";
                 std::cout << "Description: " << character->getDescription() << "\n";
                 std::cout << "Starting weapon: " << character->getWeaponName() << "\n";
@@ -43,6 +46,7 @@ void startNewGame() {
                 char confirmation = _getch();
                 if (confirmation == 'Y' || confirmation == 'y') {
                     clearscreen();
+                    displayLogo();
                     std::string name;
                     std::cout << "Enter the name of your character: ";
                     std::cin >> name;
@@ -53,7 +57,7 @@ void startNewGame() {
                     
                     system("timeout 5");
 
-                    runGame();
+                    runGame(std::move(character));
                     return;
                 } else if (confirmation == 'N' || confirmation == 'n') {
                     startNewGame();
