@@ -52,6 +52,11 @@ void Map::display() const {
                 std::cout << cell;
                 setDefaultColor(); 
             }
+            else if (cell == 'H') {
+                setColor(YELLOW);
+                std::cout << cell;
+                setDefaultColor(); 
+            }
             else {
                 std::cout << cell;
             }
@@ -70,7 +75,7 @@ void Map::updatePlayerPosition(int x, int y) {
     mapData[playerY][playerX] = '.';
     playerX = x;
     playerY = y;
-    if (mapData[playerY][playerX] == 'E')
+    if (mapData[playerY][playerX] == 'E' || mapData[playerY][playerX] == 'H')
         return;
     mapData[playerY][playerX] = 'P';
     
@@ -87,13 +92,34 @@ void Map::placeEnemies(int numberOfEnemies) {
     }
 }
 
+void Map::placePotions(int numberOfPotions){
+    for (int i = 0; i < numberOfPotions; ++i) {
+        int ex, ey;
+        do {
+            ex = std::rand() % width;
+            ey = std::rand() % height;
+        } while (mapData[ey][ex] != '.');
+        mapData[ey][ex] = 'H';
+    }
+}
+
 bool Map::encounterEnemy() const {
     return mapData[playerY][playerX] == 'E';
 }
 
+bool Map::encounterPotion() const {
+    return mapData[playerY][playerX] == 'H';
+}
+
 void Map::removeEnemy(int x, int y) {
     if (mapData[y][x] == 'E') {
-        mapData[y][x] = '.';
+        mapData[y][x] = 'P';
+    }
+}
+
+void Map::removePotion(int x, int y) {
+    if (mapData[y][x] == 'H') {
+        mapData[y][x] = 'P';
     }
 }
 

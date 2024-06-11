@@ -37,11 +37,15 @@ void startNewGame() {
             while (true) {
                 clearscreen();
                 displayLogo();
-                std::cout << "You have selected " << character->getName() << ".\n";
-                std::cout << "Description: " << character->getDescription() << "\n";
-                std::cout << "Starting weapon: " << character->getWeaponName() << "\n";
+                setColor(RED);
+                std::cout << '+' << std::string(50, '-') << '+' << std::endl;
+                std::cout << "| You have selected " << character->getName() << ".|\n";//repair!
+                std::cout << "| Description: " << character->getDescription() << "|\n";
+                std::cout << "| Starting weapon: " << character->getWeaponName() << "|\n";
                 character->displaySpecialAbility();
                 std::cout << "\nDo you want to choose this class? (Y/N)\n";
+                std::cout << '+' << std::string(50, '-') << '+' << std::endl;
+                setDefaultColor();
 
                 char confirmation = _getch();
                 if (confirmation == 'Y' || confirmation == 'y') {

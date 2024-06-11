@@ -33,7 +33,7 @@ void Enemy::setLevel(int level) {
 
 void Enemy::updateStats() {
     health = 50 + 10 * level;
-    damage = 5 + 2 * level;
+    damage = 5 + 1 * level;
 }
 
 //goblin

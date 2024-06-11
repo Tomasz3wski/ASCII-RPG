@@ -3,7 +3,7 @@
 #include "../include/newGame.h"
 
 int main() {
-    SetConsole(52, 30);
+    SetConsole(52, 40);
 
     Menu Menu;
     Menu.Run();

@@ -8,7 +8,7 @@ void setColor(int color);
 void setDefaultColor();
 void SetConsole(int width, int height);
 void displayLogo();
-
+void SetConsole(int width, int height);
 
 class Menu{
     bool invalidChoice;

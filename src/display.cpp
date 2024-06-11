@@ -74,7 +74,7 @@ void Menu::setInvalidChoice(bool _invalidChoice){
 }
 
 Menu::Menu() : invalidChoice(false), selectedOption(0){
-        options = {"New Game", "Load Game", "Author", "Exit Game"};
+        options = {"Start Game", "Author", "Exit Game"};
 };
 
 
@@ -118,11 +118,6 @@ void Menu::Run(){
                                 break;
                         case 1:
                                 clearscreen();
-                                std::cout << "Loaded the game.\n";
-                                system("timeout 3");
-                                return;
-                        case 2:
-                                clearscreen();
                                 for (int i = 0; i < 10; i++){
                                         if(i == 0 or i == 9){
                                                 setColor(YELLOW);
@@ -157,7 +152,7 @@ void Menu::Run(){
                                         Sleep(1500);
                                 }
                                 break;
-                        case 3:
+                        case 2:
                                 clearscreen();
                                 std::cout << "Exiting the game...\n";
                                 system("timeout 5");

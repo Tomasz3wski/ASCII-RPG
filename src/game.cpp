@@ -25,13 +25,29 @@ void displayGameOver() {
 void runGame(std::unique_ptr<Character> character) {
     Map gameMap(50, 18);
     gameMap.placeEnemies(8);
+    gameMap.placePotions(2);
     int playerX = 1;
     int playerY = 18 / 2;
 
     while (true) {
         clearscreen();
-        displayLogo();
+        //displayLogo();
         gameMap.display();
+        std::cout << "\narrows - move \n" << std::endl;
+        setColor(PURPLE);
+        std::cout << "P - player" << std::endl;
+        setColor(RED);
+        std::cout << "E - enemy" << std::endl;
+        setColor(YELLOW);
+        std::cout << "H - health potion" << std::endl;
+        setColor(GREEN);
+        std::cout << "T - tree" << std::endl;
+        setColor(AQUA);
+        std::cout << "~ - water" << std::endl;
+        setDefaultColor();
+        std::cout << "# - grass\n" << std::endl;
+
+        character->displayStats();
 
         int ch = _getch();
         if (ch == 224) { //special keys
@@ -53,6 +69,11 @@ void runGame(std::unique_ptr<Character> character) {
             playerX = gameMap.getPlayerX();
             playerY = gameMap.getPlayerY();
 
+            if (gameMap.encounterPotion()) {
+            character->addHealth();
+            gameMap.removePotion(gameMap.getPlayerX(), gameMap.getPlayerY());
+            }
+
             if (gameMap.encounterEnemy()) {
                 clearscreen();
                 std::unique_ptr<Enemy> enemy;
@@ -72,7 +93,7 @@ void runGame(std::unique_ptr<Character> character) {
 
                 //battle loop
                 while (character->getHealth() > 0 && enemy->getHealth() > 0) {
-                    int characterDamage = character->getDamage();
+                    int characterDamage = character->getDamage() + character->getLevel() * 2;
                     enemy->takeDamage(characterDamage);
                     std::cout << "You dealt " << characterDamage << " damage to the " << enemy->getName() << ".\n";
                     Sleep(1000);

@@ -28,6 +28,7 @@ public:
     int getExpToNextLevel() const;
     void gainExp(int amount);
     int getHealth() const;
+    void addHealth();
     int getDamage() const;
     void takeDamage(int damage);
     void setName(const std::string& newName);

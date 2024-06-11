@@ -53,6 +53,10 @@ int Character::getHealth() const {
     return health;
 }
 
+void Character::addHealth() {
+    health += 50;
+}
+
 int Character::getDamage() const {
     return weapon->getDamage();
 }
@@ -65,6 +69,8 @@ void Character::takeDamage(int damage) {
 void Character::displayStats() const{
     std::cout << "Character Name: " << getName() << "\n";
     std::cout << "Class: " << getClassName() << "\n";
+    std::cout << "Damage: " << getDamage() << "\n";
+    std::cout << "HP: " << getHealth() << "\n";
     std::cout << "Level: " << getLevel() << "\n";
     std::cout << "EXP: " << getExp() << " / " << getExpToNextLevel() << "\n";
 }
@@ -73,6 +79,7 @@ void Character::levelUp() {
     exp -= expToNextLevel;
     level++;
     expToNextLevel *= 1.5;
+    health += 50;
     std::cout << "Level up! You are now level " << level << "!\n";
 }
 
