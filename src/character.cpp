@@ -58,7 +58,8 @@ void Character::addHealth() {
 }
 
 int Character::getDamage() const {
-    return weapon->getDamage();
+    int damage = (weapon->getDamage())+level*2;
+    return damage;
 }
 
 void Character::takeDamage(int damage) {

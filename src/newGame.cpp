@@ -3,6 +3,8 @@
 #include <memory>
 #include <conio.h>
 #include <windows.h>
+#include <format>
+#include <sstream>
 #include "../include/newGame.h"
 #include "../include/menuHandler.h"
 #include "../include/utilities/Colors.h"
@@ -34,31 +36,36 @@ void startNewGame() {
     }
 
     if (character) {
+        int width = 50;
             while (true) {
                 clearscreen();
                 displayLogo();
-                setColor(RED);
-                std::cout << '+' << std::string(50, '-') << '+' << std::endl;
-                std::cout << "| You have selected " << character->getName() << ".|\n";//repair!
-                std::cout << "| Description: " << character->getDescription() << "|\n";
-                std::cout << "| Starting weapon: " << character->getWeaponName() << "|\n";
-                character->displaySpecialAbility();
-                std::cout << "\nDo you want to choose this class? (Y/N)\n";
-                std::cout << '+' << std::string(50, '-') << '+' << std::endl;
-                setDefaultColor();
+                displayWithBorder("You have selected " + character->getName() + ".", width);
+                displayWithBorder("Description: " + character->getDescription(), width);
+                displayWithBorder("Starting weapon: " + character->getWeaponName(), width);
+                displayWithBorder("Do you want to choose this class? (Y/N)", width);
 
                 char confirmation = _getch();
                 if (confirmation == 'Y' || confirmation == 'y') {
                     clearscreen();
                     displayLogo();
                     std::string name;
+                    setColor(LIGHT_RED);
+                    std::cout << '+' + std::string(width - 2, '-') + '+' << std::endl;
+                    setDefaultColor();
                     std::cout << "Enter the name of your character: ";
                     std::cin >> name;
                     character->setName(name);
 
                     clearscreen();
+                    setColor(LIGHT_RED);
+                    std::cout << '+' + std::string(width - 2, '-') + '+' << std::endl;
+                    setDefaultColor();
                     character->displayStats();
-                    
+                    setColor(LIGHT_RED);
+                    std::cout << '+' + std::string(width - 2, '-') + '+' << std::endl;
+                    setDefaultColor();
+
                     system("timeout 5");
 
                     runGame(std::move(character));
@@ -68,3 +75,46 @@ void startNewGame() {
                     return;
 }}}}
 
+std::vector<std::string> splitText(const std::string& text, int width) {
+    std::istringstream words(text);
+    std::string word;
+    std::vector<std::string> lines;
+    std::string currentLine;
+
+    while (words >> word) {
+        if (currentLine.length() + word.length() + 1 > static_cast<size_t>(width)) {
+            lines.push_back(currentLine);
+            currentLine = word;
+        } else {
+            if (!currentLine.empty()) {
+                currentLine += " ";
+            }
+            currentLine += word;
+        }
+    }
+
+    if (!currentLine.empty()) {
+        lines.push_back(currentLine);
+    }
+
+    return lines;
+}
+
+void displayWithBorder(const std::string& content, int width) {
+    std::vector<std::string> lines = splitText(content, width - 2);
+    std::string border = '+' + std::string(width - 2, '-') + '+';
+
+    setColor(LIGHT_RED);
+    std::cout << border << std::endl;
+    
+    for (const auto& line : lines) {
+        std::cout << '|';
+        setDefaultColor();
+        std::cout << std::format("{:<{}}", line, width - 2);
+        setColor(LIGHT_RED);
+        std::cout << '|' << std::endl;
+    }
+
+    std::cout << border << std::endl;
+    setDefaultColor();
+}
