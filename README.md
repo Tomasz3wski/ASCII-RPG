@@ -17,21 +17,20 @@ ASCII_RPG/
 │ ├── menuHandler.h
 │ ├── newGame.h
 │ └── utilities/
-│ └──── Colors.h
+│ └── Colors.h
 ├── res/
 │ ├── logo.ico
 │ ├── resource.h
 │ └── resource.rc
-├── src/
-│ ├── character.cpp
-│ ├── display.cpp
-│ ├── enemy.cpp
-│ ├── game.cpp
-│ ├── main.cpp
-│ ├── map.cpp
-│ ├── menuHandler.cpp
-│ ├── newGame.cpp
-└── README.md
+└── src/
+├── character.cpp
+├── display.cpp
+├── enemy.cpp
+├── game.cpp
+├── main.cpp
+├── map.cpp
+├── menuHandler.cpp
+└── newGame.cpp
 
 ## Features
 
@@ -64,7 +63,7 @@ Follow these steps to compile and run the game:
 3. **Run the game**:
 
    ```sh
-   ./asciirpg.exe
+   .\asciirpg.exe
    ```
 
 ## Future Improvements
