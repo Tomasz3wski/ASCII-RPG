@@ -5,7 +5,7 @@
 ASCII RPG is a text-based role-playing game where players can explore a map, fight enemies, and gain experience. The game is designed to enhance object-oriented programming skills and provide practical experience in building a larger software project.
 
 ## Project Structure
-
+```bash
 ASCII_RPG/
 ├── build/
 ├── include/
@@ -31,7 +31,7 @@ ASCII_RPG/
 ├── map.cpp
 ├── menuHandler.cpp
 └── newGame.cpp
-
+```
 ## Features
 
 - **Game Mechanics**: Explore map, encounter enemies, and level up your character.
